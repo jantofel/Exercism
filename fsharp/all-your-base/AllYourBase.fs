@@ -24,18 +24,4 @@ let rec toOutput outputBase maybeNumber accumulator =
             | _ -> Some accumulator
         | _ -> toOutput outputBase (Some (number / outputBase)) ((number % outputBase) :: accumulator)
 
-//let rec toOutput outputBase maybeNumber accumulator =
-//    match maybeNumber with
-//    | None -> None
-//    | Some number -> 
-//        match outputBase with
-//        | i when i < 2 -> None
-//        | _ ->
-//            match number with
-//            | 0 -> 
-//                match accumulator with 
-//                | [] -> Some [0]
-//                | _ -> Some accumulator
-//            | _ -> toOutput outputBase (Some (number / outputBase)) ((number % outputBase) :: accumulator)
-
 let rebase digits inputBase outputBase = toOutput outputBase ( fromInput digits inputBase 0 ) []
