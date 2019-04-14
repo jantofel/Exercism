@@ -1,11 +1,21 @@
 ﻿module Bob
 
+let (|Yelling|_|) (input:string) =
+    if input.ToUpper() = input && input.ToLower() <> input then Some(input)
+    else None
+
+let (|Question|_|) (input:string) =
+    if input.Trim().EndsWith('?') then Some(input)
+    else None
+
+let (|Nothing|_|) (input:string) =
+    if input.Trim() = "" then Some(input)
+    else None
+
 let response (input: string): string =
-    let isQuestion = input.Trim().EndsWith('?')
-    let isYelling = input.ToUpper() = input && input.ToLower() <> input
-    let isNothing = input.Trim() = ""
-    if isQuestion && isYelling then "Calm down, I know what I'm doing!"
-    elif isNothing             then "Fine. Be that way!"
-    elif isQuestion            then "Sure."
-    elif isYelling             then "Whoa, chill out!"
-    else                            "Whatever."
+    match input with
+        | Question _ & Yelling _ -> "Calm down, I know what I'm doing!"
+        | Nothing _              -> "Fine. Be that way!"
+        | Question _             -> "Sure."
+        | Yelling _              -> "Whoa, chill out!"
+        | _                      -> "Whatever."
