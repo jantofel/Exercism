@@ -1,8 +1,12 @@
 ﻿module SumOfMultiples
 
+let divisibleBy (numbers: int list) (number: int): bool =
+    let divisible x = x<>0 && number%x = 0
+    numbers
+    |> List.map divisible
+    |> List.fold (||) false
+
 let sum (numbers: int list) (upperBound: int): int =
-    let whichDivisible n = List.map (fun x -> x<>0 && n%x = 0 ) numbers
-    let allDivisible n = List.fold (||) false ( whichDivisible n )
     [1..upperBound-1]
-    |> List.filter allDivisible
+    |> List.filter ( divisibleBy numbers )
     |> List.sum
