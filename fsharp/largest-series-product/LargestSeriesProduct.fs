@@ -1,24 +1,16 @@
 ﻿module LargestSeriesProduct
 
-open Microsoft.VisualBasic.CompilerServices
-
-let rec myMax (maxSoFar:int) (numbers: int option list): int option =
-    match numbers with
-    | [] -> Some maxSoFar
+let rec myFold accumulator accFn inputs =
+    match inputs with
+    | [] -> Some accumulator
     | None :: _ -> None
-    | Some n :: rest -> myMax (max maxSoFar n) rest
+    | Some n :: rest -> myFold (accFn accumulator n) accFn rest
 
 let toInt (n: char): int option =
     let res = int(n) - int('0')
     if 0 <= res && res <= 9 then Some res
     else None
-
-let rec myProduct (productSoFar:int) (numbers: int option list): int option =
-    match numbers with
-    | [] -> Some productSoFar
-    | None :: _ -> None
-    | Some n :: rest -> myProduct (productSoFar*n) rest
-
+    
 let largestProduct (input: string) (seriesLength: int) : int option =
     if input.Length < seriesLength then None
     elif seriesLength < 0 then None
@@ -28,7 +20,7 @@ let largestProduct (input: string) (seriesLength: int) : int option =
             input.ToCharArray( start, seriesLength )
             |> List.ofArray
             |> List.map toInt
-            |> myProduct 1
+            |> myFold 1 (*)
         [0..(input.Length-seriesLength)]
         |> List.map product 
-        |> myMax 0
+        |> myFold 0 max
