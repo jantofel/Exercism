@@ -6,12 +6,12 @@ let findAll (predicate:'T -> bool) (list: 'T list): int list =
     |> List.filter (fun (idx, elem) -> predicate elem)
     |> List.map (fun (idx, _elem) -> idx)
 
-let rec product accumulator (list1: 'T list) (list2: 'U list): ('T * 'U) list =
+let rec product (list1: 'T list) (list2: 'U list): ('T * 'U) list =
     match list1 with
-    | [] -> accumulator
+    | [] -> []
     | val1 :: rest1 ->
-        let x = List.map ( fun elem -> (val1,elem) ) list2
-        product ( accumulator @ x ) rest1 list2
+        let rowProduct = List.map ( fun elem -> (val1,elem) ) list2
+        rowProduct @ product rest1 list2
         
 let saddlePoints (matrix: int list list): (int*int) list =
     if matrix = [[]] then []
@@ -23,4 +23,4 @@ let saddlePoints (matrix: int list list): (int*int) list =
             |> List.map List.min
         let rowIndices = findAll ( fun elem -> List.contains elem colMinima ) rowMaxima
         let colIndices = findAll ( fun elem -> List.contains elem rowMaxima ) colMinima  
-        product [] rowIndices colIndices
+        product rowIndices colIndices
