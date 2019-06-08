@@ -1,15 +1,15 @@
 ﻿module Bob
 
 let (|Yelling|_|) (input:string) =
-    if input.ToUpper() = input && input.ToLower() <> input then Some(input)
+    if input.ToUpper() = input && input.ToLower() <> input then Some()
     else None
 
 let (|Question|_|) (input:string) =
-    if input.Trim().EndsWith('?') then Some(input)
+    if input.Trim().EndsWith('?') then Some()
     else None
 
 let (|Nothing|_|) (input:string) =
-    if input.Trim() = "" then Some(input)
+    if input.Trim() = "" then Some()
     else None
 
 let response (input: string): string =
